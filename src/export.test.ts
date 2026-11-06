@@ -1,0 +1,6 @@
+import { it, expect } from 'vitest'; import { field, validate, parse, type Config } from './model'; import { html, react } from './export';
+const config = (): Config => ({ version: 1, title: '<Form>', fields: [{ ...field('email', 1), required: true, minLength: '5' }, field('radio', 2), field('checkbox', 3)] });
+it('export HTML berisi komponen dan validasi nyata tanpa injeksi', () => { const c = config(); c.fields[0].label = '<img onerror="x">'; const out = html(c); expect(out).toContain('type="email"'); expect(out).toContain(' required'); expect(out).toContain('minlength="5"'); expect(out).not.toContain('<img'); expect(out).toContain('new FormData'); });
+it('export React menangani submit dan key JSON asli', () => { const out = react(config()); expect(out).toContain('onSubmit={submit}'); expect(out).toContain('required={true}'); expect(out).toContain('type="radio"'); });
+it('roundtrip JSON', () => { const c = config(); expect(parse(JSON.stringify(c))).toEqual(c); });
+it('menolak nama duplikat dan regex rusak', () => { const c = config(); c.fields[1].name = c.fields[0].name; expect(() => validate(c)).toThrow(); c.fields[1].name = 'radio'; c.fields[0].pattern = '['; expect(() => validate(c)).toThrow(); });

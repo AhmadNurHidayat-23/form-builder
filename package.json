@@ -1,0 +1,24 @@
+{
+  "name": "form-builder",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vue-tsc --noEmit && vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "vite": "^7.2.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "vue-tsc": "^3.1.0"
+  },
+  "overrides": {
+    "electron-to-chromium": "1.5.218"
+  }
+}
